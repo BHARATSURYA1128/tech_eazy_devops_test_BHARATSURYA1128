@@ -1,0 +1,23 @@
+nohup: ignoring input
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.6)
+
+2025-07-22T08:53:11.648Z  INFO 4035 --- [techeazy-devops] [           main] c.t.devops.TecheazyDevopsApplication     : Starting TecheazyDevopsApplication v0.0.1-SNAPSHOT using Java 21.0.7 with PID 4035 (/home/ubuntu/techeazy-devops/target/techeazy-devops-0.0.1-SNAPSHOT.jar started by root in /home/ubuntu/techeazy-devops)
+2025-07-22T08:53:11.655Z  INFO 4035 --- [techeazy-devops] [           main] c.t.devops.TecheazyDevopsApplication     : No active profile set, falling back to 1 default profile: "default"
+2025-07-22T08:53:13.776Z  INFO 4035 --- [techeazy-devops] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 80 (http)
+2025-07-22T08:53:13.819Z  INFO 4035 --- [techeazy-devops] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-22T08:53:13.822Z  INFO 4035 --- [techeazy-devops] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-07-22T08:53:14.073Z  INFO 4035 --- [techeazy-devops] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-22T08:53:14.074Z  INFO 4035 --- [techeazy-devops] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2314 ms
+2025-07-22T08:53:15.368Z  INFO 4035 --- [techeazy-devops] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 80 (http) with context path '/'
+2025-07-22T08:53:15.408Z  INFO 4035 --- [techeazy-devops] [           main] c.t.devops.TecheazyDevopsApplication     : Started TecheazyDevopsApplication in 4.872 seconds (process running for 5.965)
+2025-07-22T08:53:47.360Z  INFO 4035 --- [techeazy-devops] [p-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-22T08:53:47.362Z  INFO 4035 --- [techeazy-devops] [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-22T08:53:47.365Z  INFO 4035 --- [techeazy-devops] [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
