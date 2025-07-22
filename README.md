@@ -14,7 +14,7 @@ This project demonstrates how to automate the deployment of a Java application t
 - Connected via SSH using:
 
 ```bash
-ssh -i my-key.pem ubuntu@<ec2-public-ip>
+ssh -i my-key.pem ubuntu@18.204.196.191.compute-1.amazonaws.com
 ```
 ### ✅ Step 2: Install Dependencies
 - Installed required packages inside the EC2 instance:
@@ -50,7 +50,7 @@ sudo nohup java -jar target/techeazy-devops-0.0.1-SNAPSHOT.jar --server.port=80 
 - Confirmed the app is running on:
 
 ```bash
-http://<ec2-public-ip>
+http://18.204.196.191
 ```
 ### ✅ Step 5: Schedule Auto-Shutdown
 - To avoid EC2 charges, scheduled the instance to shut down automatically:
@@ -96,7 +96,7 @@ sudo shutdown -h +$SHUTDOWN_TIMER_MINUTES
 
 ```bash
 git init
-git remote add origin https://github.com/<your-username>/tech_eazy_devops_<your-username>.git
+git remote add origin https://github.com/BHARATSURYA1128/tech_eazy_devops_BHARATSURYA1128.git
 git add .
 git commit -m "Initial commit"
 git push -u origin main
