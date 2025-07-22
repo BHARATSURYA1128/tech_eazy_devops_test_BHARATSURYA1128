@@ -1,75 +1,152 @@
-````markdown
-# 🚀 Techeazy DevOps Assignment 3 - Fully Automated EC2 App Deployment
+# 🚀 Techeazy DevOps Assignment
 
-This project automates the complete deployment of a Spring Boot application on an AWS EC2 instance using **Terraform** and **GitHub Actions**. It ensures all logs are stored in **S3**, enforces proper IAM roles, and the deployment is triggered seamlessly on every push or via the GitHub Actions UI — no manual steps needed!
-
----
-
-## ✅ Features
-
-- 🌐 **EC2 Instance** with Java 21 + Spring Boot App exposed on **port 80**
-- 📦 **Terraform** code handles all infrastructure provisioning
-- ⚙️ **GitHub Actions**: CI/CD pipeline auto-deploys on push or manual trigger
-- 🔐 **IAM Roles**:
-  - Read-only role for log readers
-  - Write-only role for the EC2 app instance
-- 📁 **Logs automatically uploaded to S3**:
-  - `/app/logs/app.log`
-  - `/system/cloud-init.log`
-- 🗑️ **S3 Lifecycle Rule**: Logs are auto-deleted after 7 days
+This project demonstrates how to automate the deployment of a Java application to an AWS EC2 instance using only shell scripts and environment configurations — with no external tools or frameworks. The app runs on port 80 and auto-shuts down to avoid costs.
 
 ---
 
-## 📦 Prerequisites
+## 📋 Step-by-Step Project Setup
 
-Before deployment, ensure:
+### ✅ **Step 1: Launch EC2 Instance**
+- Created an EC2 instance (Ubuntu 20.04) using AWS Console
+- Configured a security group to allow:
+  - **SSH (port 22)** from my IP
+  - **HTTP (port 80)** from anywhere
+- Connected via SSH using:
 
-1. Go to your GitHub repo → **Settings** → **Secrets and Variables** → **Actions**
-2. Add these secrets:
-   - `AWS_ACCESS_KEY_ID`
-   - `AWS_SECRET_ACCESS_KEY`
-   - `INSTANCE_KEY` #for this the value is all the content of your key pair.
+```bash
+ssh -i my-key.pem ubuntu@<ec2-public-ip>
+```
+### ✅ Step 2: Install Dependencies
+- Installed required packages inside the EC2 instance:
 
-3. These credentials must have permissions for EC2, S3, and IAM resource management.
+```bash
+Copy code
+sudo apt update
+sudo apt install -y openjdk-21-jdk maven git
+```
+Verified installations:
 
+```bash
+java -version
+mvn -version
+git --version
+```
+###  ✅ Step 3: Clone and Build the Java Application
+- Cloned the sample Java project from GitHub:
+
+```bash
+git clone https://github.com/techeazy-consulting/techeazy-devops.git
+cd techeazy-devops
+mvn clean package
+```
+- The final JAR file was generated in target/.
+
+### ✅ Step 4: Run the App on Port 80
+- Deployed the app to run on port 80:
+
+```bash
+sudo nohup java -jar target/techeazy-devops-0.0.1-SNAPSHOT.jar --server.port=80 > log.txt 2>&1 &
+```
+- Confirmed the app is running on:
+
+```bash
+http://<ec2-public-ip>
+```
+### ✅ Step 5: Schedule Auto-Shutdown
+- To avoid EC2 charges, scheduled the instance to shut down automatically:
+
+```bash
+sudo shutdown -h +30
+```
+#### ✅ Step 6: Automate the Deployment
+- Created the following files:
 ---
+🔹 dev_config.env
+```bash
+APP_NAME=techeazy-devops
+PORT=80
+ENVIRONMENT=dev
+SHUTDOWN_TIMER_MINUTES=30
+```
 
-## 🚀 How to Deploy
+🔹 deploy.sh
+```bash
+#!/bin/bash
 
-You have **two options**:
+source dev_config.env
 
-### Option 1: Auto Deploy on Push
+echo "🔧 Deploying $APP_NAME in $ENVIRONMENT environment..."
 
-- Push any commit to your branch (`feature/devops-assignment-3`) to trigger deployment.
+sudo pkill -f "$APP_NAME" || true
+mvn clean package
 
-### Option 2: Manual Trigger
+sudo nohup java -jar target/${APP_NAME}-0.0.1-SNAPSHOT.jar --server.port=${PORT} > log.txt 2>&1 &
 
-1. Go to the **Actions** tab on GitHub
-2. Select **“EC2 Deploy via terraform”**
-3. Click **“Run workflow”**
-4. Watch the logs — Terraform will:
-   - Provision EC2 and S3
-   - Output the **public IP** (see `Terraform Apply` step)
-   - Build and launch the app
+echo "🚀 App running on port $PORT"
 
----
+sudo shutdown -h +$SHUTDOWN_TIMER_MINUTES
+```
+- 🔹 resources/postman_collection.json
+- Created a placeholder Postman collection to meet assignment requirements.
 
-## 🌐 Access the App
+### ✅ Step 7: Push to GitHub
+- Initialized a Git repo inside the EC2 instance
 
-After deployment:
+- Added all files and pushed them to GitHub
 
-1. Open **GitHub → Actions**
-2. Click on the latest successful **Deploy workflow run**
-3. Scroll to the **Terraform Apply** step logs
-4. Look for output like:
+```bash
+git init
+git remote add origin https://github.com/<your-username>/tech_eazy_devops_<your-username>.git
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+```
+### 🧪 How to Deploy (Usage)
+SSH into your EC2 instance
 
-   ```
-   Outputs:
+Run:
 
-   ec2_public_ip = "YOUR_PUBLIC_IP"
-   ```
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+The script will:
 
-5. Visit [http://YOUR_PUBLIC_IP](http://YOUR_PUBLIC_IP) in your browser — you should see the app running! 🎉
+Build the app
 
----
-````
+Run it on port 80
+
+Auto-shutdown the instance after the configured time
+
+### 📂 File Structure
+
+```
+.
+├── deploy.sh
+├── dev_config.env
+├── README.md
+├── resources/
+│   └── postman_collection.json
+└── target/
+    └── techeazy-devops-0.0.1-SNAPSHOT.jar
+```
+📬 Postman Collection
+Located at:
+
+```bash
+resources/postman_collection.json
+```
+You can import this into Postman for API testing.
+
+### 🧾 Notes
+Java version: 21 (OpenJDK)
+
+EC2 type: t2.micro (Free Tier eligible)
+
+No external libraries/tools used
+
+All setup done manually on EC2 instance
+
+## 👏 Thank you!
+This project demonstrates the fundamentals of cloud automation using minimal tools — all run and managed from within a Linux EC2 instance.
+
