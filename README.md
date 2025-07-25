@@ -93,6 +93,32 @@ sudo shutdown -h +$SHUTDOWN_TIMER_MINUTES
 ```
 🔹 resources/postman_collection.json
 
+```bash
+{
+  "info": {
+    "name": "TechEazy DevOps Assignment",
+    "description": "Sample collection to test /hello endpoint on deployed EC2 app.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /hello",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://34.230.4.46/hello",
+          "protocol": "http",
+          "host": ["34.230.4.46"],
+          "path": ["hello"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
+```
+
 Created using cURL and exported via Postman to verify /hello endpoint.
 
 ### ✅ Step 7: Push to GitHub
